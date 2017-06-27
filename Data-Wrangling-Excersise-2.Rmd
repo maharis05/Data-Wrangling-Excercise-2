@@ -1,0 +1,44 @@
+---
+title: "Data-Wrangling-Exercise-2" Genus Wilson
+output: html_document
+---
+
+## Load Data in RStudio:
+
+```{r}
+df.titanic_original <- read_csv("/Users/genuswilson/Downloads/titanic_original.csv")
+```
+
+## Port of Embarkation:
+
+
+```{r}
+df.titanic_original$embarked[df.titanic_original$embarked == ""] <- "S"
+```
+
+## AGE
+I populated the missing values in the age column with the mean based on the better center of distribution for the data.  
+```{r}
+df.titanic_original$age[is.na(df.titanic_original$age)] <- mean(df.titanic_original$age, na.rm = TRUE)
+```
+
+## Lifeboat
+
+```{r}
+df.titanic_original$boat[is.na(df.titanic_original$boat)] <- 'None'
+```
+
+
+##Cabin
+
+```{r}
+df.titanic_original <- df.titanic_original %>% rowwise() %>% mutate(has_cabin_number = ifelse(is.na(cabin),0,1))
+
+```
+
+## Cleaned-up Data file
+
+```{r}
+write.csv(df.titanic_original, file = "titanic_clean.csv")
+```
+
